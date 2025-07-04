@@ -1,0 +1,79 @@
+# .github/workflows/android-build.yml
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - main # Trigger on pushes to the main branch
+  pull_request:
+    branches:
+      - main # Trigger on pull requests to the main branch
+  workflow_dispatch: # Allows manual triggering from the GitHub Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Use a fresh Ubuntu environment for each build
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4 # Action to check out your code from the repository
+
+      - name: Set up JDK 17
+        # This action sets up the Java Development Kit (JDK) environment.
+        # Android builds require a specific JDK version.
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu' # A common and reliable JDK distribution
+          java-version: '17'    # Specify JDK 17, compatible with recent Android Gradle Plugin versions
+          cache: 'gradle'       # Cache Gradle dependencies to speed up subsequent builds
+
+      - name: Grant execute permission for gradlew
+        # The gradlew script needs executable permissions on the Linux runner.
+        run: chmod +x gradlew
+
+      - name: Build Debug APK
+        # This command executes the Gradle task to assemble the debug APK.
+        # The output APK will be located in app/build/outputs/apk/debug/
+        run: ./gradlew assembleDebug
+
+      - name: Upload Debug APK as Artifact
+        # This action uploads the generated APK file as a workflow artifact.
+        # Artifacts can be downloaded from the GitHub Actions run summary page.
+        uses: actions/upload-artifact@v4
+        with:
+          name: Debug-APK # The name of the artifact
+          path: app/build/outputs/apk/debug/app-debug.apk # The path to the generated APK file
+          retention-days: 7 # Optional: How many days to retain the artifact (e.g., 7 days)
+
+      # --- Optional: Build and Upload Release APK ---
+      # Building a release APK requires signing. For security, you should use
+      # GitHub Secrets to store your keystore and its credentials.
+      # Uncomment and configure the following steps if you want to build a release APK.
+
+      # - name: Decode and Save Keystore (for Release Build)
+      #   # This step decodes the Base64-encoded keystore from GitHub Secrets
+      #   # and saves it to a file that Gradle can use.
+      #   if: ${{ secrets.KEYSTORE_BASE64 != '' }} # Only run if the secret exists
+      #   run: |
+      #     echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
+      #   env:
+      #     KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }} # Access the secret
+
+      # - name: Build Release APK
+      #   # This command builds the release APK. It relies on the signing configuration
+      #   # in your app/build.gradle that uses the secrets.
+      #   if: ${{ secrets.KEYSTORE_BASE64 != '' }} # Only run if the secret exists
+      #   run: ./gradlew assembleRelease
+      #   env:
+      #     KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      #     KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      #     KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      # - name: Upload Release APK as Artifact
+      #   # Uploads the signed release APK as a workflow artifact.
+      #   if: ${{ secrets.KEYSTORE_BASE64 != '' }} # Only run if the secret exists
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: Release-APK
+      #     path: app/build/outputs/apk/release/app-release.apk
+      #     retention-days: 30 # Longer retention for release builds
