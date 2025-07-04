@@ -1,0 +1,3 @@
+// Defines the modules included in your project.
+rootProject.name = "TestingMenuOpener" # Your project name
+include ':app' # Include your 'app' module
