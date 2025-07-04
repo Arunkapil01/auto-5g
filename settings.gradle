@@ -1,6 +1,20 @@
 // settings.gradle
 // This file defines the name of your root project and declares any sub-projects (modules)
-// that are part of your build. For an Android project, ':app' is typically your main application module.
+// that are part of your build.
+// The pluginManagement block is correctly placed here, as it's a settings-level configuration.
 
 rootProject.name = "TestingMenuOpener" // Sets the name of your overall Gradle project
-include ':app'                       // Includes the 'app' module in your build
+
+// This block is crucial for Gradle to find and download plugins themselves.
+// It MUST be in settings.gradle (or settings.gradle.kts).
+pluginManagement {
+    repositories {
+        gradlePluginPortal() // The default repository for Gradle plugins
+        google()             // Google's Maven repository, essential for Android-specific artifacts
+        mavenCentral()       // Maven Central for general Java/Kotlin dependencies
+    }
+}
+
+// Includes the 'app' module in your build.
+// All modules declared here will be part of your multi-project build.
+include ':app'
