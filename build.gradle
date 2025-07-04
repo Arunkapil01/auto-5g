@@ -21,17 +21,6 @@ buildscript {
     }
 }
 
-// This block is crucial for Gradle to find and download plugins themselves.
-// It's still good practice to keep this for other potential plugins,
-// even if AGP is now declared via 'buildscript' classpath.
-pluginManagement {
-    repositories {
-        gradlePluginPortal() // The default repository for Gradle plugins
-        google()             // Google's Maven repository, essential for Android-specific artifacts
-        mavenCentral()       // Maven Central for general Java/Kotlin dependencies
-    }
-}
-
 // All projects will use these repositories for their own dependencies (e.g., app/build.gradle).
 allprojects {
     repositories {
