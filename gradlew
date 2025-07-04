@@ -57,7 +57,7 @@ if [ -f "$APP_OPTS_FILE" ] ; then
 fi
 
 # Find the wrapper JAR.
-WRAPPER_JAR="$APP_HOME/gradle/wrapper/gradle-wrapper.jar"
+WRAPPER_JAR="$APP_HOME/gradle/wrapper/gradle-wrapper-8.2.jar"
 if [ ! -f "$WRAPPER_JAR" ] ; then
     die "ERROR: Could not find the Gradle wrapper JAR file: $WRAPPER_JAR"
 fi
