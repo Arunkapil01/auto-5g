@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'com.android.application' version '8.2.0' apply false // Use a recent AGP version
+    id 'com.android.5gdialer' version '8.2.0' apply false // Use a recent AGP version
     id 'org.jetbrains.kotlin.android' version '1.9.0' apply false // Include Kotlin plugin if you plan to use Kotlin, even if not strictly needed for this Java-only app.
 }
 
