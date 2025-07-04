@@ -2,7 +2,7 @@
 plugins {
     // Corrected plugin ID for Android applications.
     // 'com.android.application' is the standard Android Gradle Plugin for app modules.
-    id 'com.android.application' version '8.2.0' apply false
+    id 'com.android.application' version '8.14.2' apply false
     id 'org.jetbrains.kotlin.android' version '1.9.0' apply false // Include Kotlin plugin if you plan to use Kotlin, even if not strictly needed for this Java-only app.
 }
 
