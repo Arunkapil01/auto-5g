@@ -1,6 +1,6 @@
-org.gradle.caching = true
-org.gradle.jvmargs = -Xms512M -Xmx2048M
-org.gradle.parallel = true
-android.useAndroidX = true
-kotlin.code.style = official
-version = 5.30.0
+// settings.gradle
+// This file defines the name of your root project and declares any sub-projects (modules)
+// that are part of your build. For an Android project, ':app' is typically your main application module.
+
+rootProject.name = "TestingMenuOpener" // Sets the name of your overall Gradle project
+include ':app'                       // Includes the 'app' module in your build
